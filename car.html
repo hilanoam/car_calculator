@@ -1,0 +1,118 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-slate-50">
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="hidden md:flex w-64 flex-col border-r border-slate-200 bg-white">
+      <div class="h-16 flex items-center px-6 font-semibold text-slate-900">
+        MyApp
+      </div>
+      <nav class="px-3 py-4 space-y-1 text-sm">
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-slate-100 text-slate-900" href="#">Dashboard</a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900" href="#">Users</a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900" href="#">Reports</a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900" href="#">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1">
+      <!-- Topbar -->
+      <header class="h-16 flex items-center justify-between px-6 border-b border-slate-200 bg-white">
+        <div class="font-semibold text-slate-900">Dashboard</div>
+        <div class="flex items-center gap-3">
+          <input class="hidden sm:block w-72 px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                 placeholder="Search..." />
+          <div class="h-9 w-9 rounded-full bg-slate-200"></div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="p-6 space-y-6">
+        <!-- KPI Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-sm text-slate-500">Total Users</div>
+            <div class="mt-2 text-2xl font-semibold text-slate-900">12,480</div>
+            <div class="mt-1 text-xs text-emerald-600">+4.2% this week</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-sm text-slate-500">Revenue</div>
+            <div class="mt-2 text-2xl font-semibold text-slate-900">$48,120</div>
+            <div class="mt-1 text-xs text-emerald-600">+1.8% this week</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-sm text-slate-500">Active</div>
+            <div class="mt-2 text-2xl font-semibold text-slate-900">3,021</div>
+            <div class="mt-1 text-xs text-rose-600">-0.6% this week</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="text-sm text-slate-500">Tickets</div>
+            <div class="mt-2 text-2xl font-semibold text-slate-900">92</div>
+            <div class="mt-1 text-xs text-slate-500">Open now</div>
+          </div>
+        </section>
+
+        <!-- Chart + Table -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold text-slate-900">Performance</div>
+              <button class="px-3 py-2 rounded-xl border border-slate-200 text-sm text-slate-700 hover:bg-slate-50">
+                Export
+              </button>
+            </div>
+            <div class="mt-4 h-56 rounded-xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-500 text-sm">
+              Chart placeholder
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="font-semibold text-slate-900">Recent Activity</div>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li class="flex justify-between text-slate-600"><span>User created</span><span class="text-slate-400">2m</span></li>
+              <li class="flex justify-between text-slate-600"><span>Payment received</span><span class="text-slate-400">1h</span></li>
+              <li class="flex justify-between text-slate-600"><span>Report exported</span><span class="text-slate-400">3h</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="font-semibold text-slate-900">Users</div>
+            <button class="px-3 py-2 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800">
+              Add User
+            </button>
+          </div>
+
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="text-slate-500">
+                <tr class="border-b border-slate-200">
+                  <th class="text-left py-3">Name</th>
+                  <th class="text-left py-3">Email</th>
+                  <th class="text-left py-3">Status</th>
+                  <th class="text-right py-3">Action</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-700">
+                <tr class="border-b border-slate-100">
+                  <td class="py-3">Hila</td>
+                  <td class="py-3">hila@example.com</td>
+                  <td class="py-3"><span class="px-2 py-1 rounded-full text-xs bg-emerald-50 text-emerald-700">Active</span></td>
+                  <td class="py-3 text-right"><a class="text-slate-900 hover:underline" href="#">View</a></td>
+                </tr>
+                <tr>
+                  <td class="py-3">Sheina</td>
+                  <td class="py-3">sheina@example.com</td>
+                  <td class="py-3"><span class="px-2 py-1 rounded-full text-xs bg-slate-100 text-slate-700">Pending</span></td>
+                  <td class="py-3 text-right"><a class="text-slate-900 hover:underline" href="#">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
