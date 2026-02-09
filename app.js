@@ -254,6 +254,24 @@ function recalc() {
     if (benefitManual) benefitManual.value = "";
     if (taxPct) taxPct.value = "";
     if (allowance) allowance.value = "";
-    setStandardMode(true);
+    hasStandard = null;
+
+    // מסתירים הכול בהתחלה
+    field2Card?.classList.add("hidden");
+    datesCard?.classList.add("hidden");
+    dynamicCards?.classList.add("hidden");
+
+    // בלי סימון כפתורים
+    btnYes?.classList.remove(
+    "ring-2",
+    "ring-violet-400",
+    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
+    );
+    btnNo?.classList.remove(
+    "ring-2",
+    "ring-violet-400",
+    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
+    );
+
     dynamicCards.classList.add("hidden");
     recalc();
