@@ -1195,3 +1195,7 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+.selected-purple {
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.45),
+              0 12px 25px rgba(139, 92, 246, 0.25);
+}
