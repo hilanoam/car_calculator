@@ -4,10 +4,42 @@ const FIXED_HEALTH = 0.05;  // ביטוח בריאות
 
 // זמני – בהמשך תוסיפי עשרות דגמים
 const CAR_VALUES = {
-  small: 3200,
-  medium: 4100,
-  large: 5200,
+  kia_stonic: 1111,
+  toyota_hilux: 7280,
+  toyota_vigo: 7650,
+  toyota_yaris: 3260,
+  toyota_camry: 5190,
+  toyota_corolla: 4200,
+
+  hyundai_i25: 3340,
+  hyundai_elantra: 4160,
+  hyundai_accent: 3450,
+  hyundai_i: 2830,
+  hyundai_staria: 7750,
+
+  mazda_2: 3220,
+
+  mitsubishi_triton: 6500,
+  mitsubishi_other: 7060,
+
+  citroen_berlingo: 4380,
+  citroen_berlingo_7: 6470,
+  citroen_jumpy: 6650,
+
+  skoda_octavia: 4590,
+  fiat_ducato: 9375,
+
+  kia_ceed: 4035,
+  kia_niro: 3870,
+  kia_sportage: 4940,
+  kia_picanto: 2290,
+  kia_rio: 3160,
+
+  renault_traffic: 6600,
+  renault_megane: 4410,
+  renault_kangoo: 4070,
 };
+
 
 function toNum(v) {
   const n = Number(v);

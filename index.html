@@ -18,15 +18,76 @@
             <main class="flex-1 p-6 space-y-6">
 
               <!-- Header -->
-              <header style="text-align:center" class="w-full space-y-2 mx-auto">
+              <!-- Header (רק כותרת ממורכזת) -->
+              <header class="w-full text-center space-y-2">
                 <div class="text-slate-900 text-xl font-semibold">
                   סימולטור אומדן שווי שימוש ברכב
                 </div>
-
-                <p class="text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                  בלה בלה בלה טקסט של מלי
-                </p>
               </header>
+
+              <!-- Intro / Explanation (מחוץ ל-header!) -->
+              <section class="mx-auto w-full max-w-4xl">
+                <div class="rounded-[26px] bg-white/60 border border-white/50 backdrop-blur-2xl p-6 shadow-[0_22px_50px_rgba(31,41,55,.12)] text-right">
+                  
+                  <div class="text-center">
+                    <h2 class="text-slate-900 text-base sm:text-lg font-semibold">
+                      מידע חשוב לפני שמתחילים
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                      על פי פקודת מס הכנסה, העמדת רכב מהעבודה לשימוש העובד נחשבת להטבה שוות כסף החייבת במס,
+                      המכונה <span class="font-semibold text-slate-800">"שווי שימוש ברכב"</span>.
+                    </p>
+                  </div>
+
+                  <div class="mt-5 text-sm text-slate-700 leading-relaxed space-y-3">
+                    <p>
+                      מחלקת שכר וגמלאות בחשבות המשטרה היא הגוף האחראי על ניהול תשלומי השכר והגמלאות במשטרת ישראל.
+                      במסגרת המאמץ לשפר את השירות הניתן לשוטרי משטרת ישראל בנינו עבורכם מחשבון
+                      <span class="font-semibold">"שווי שימוש ברכב"</span>
+                      כדי לאפשר לכל אחת ואחד לקבל אומדן לחיוב בגין שימוש ברכב.
+                    </p>
+
+                    <div class="rounded-2xl bg-white/55 border border-white/50 p-4">
+                      <div class="text-slate-900 font-semibold text-sm text-center">
+                        תשלום בגין שימוש ברכב מתקיים בשני מצבים
+                      </div>
+
+                      <ol class="mt-3 space-y-3 list-none p-0 m-0">
+                        <li class="flex flex-row-reverse items-start gap-3 text-right">
+                          <span class="mt-0.5 flex-none w-7 h-7 rounded-full bg-violet-600 text-white grid place-items-center text-xs font-semibold">2</span>
+                          <div>
+                            <div class="font-semibold text-slate-900">רכב צמוד / מוצמד</div>
+                            <div class="text-slate-700">
+                              תשלום מלא בגין שווי השימוש ברכב ובמקביל השתתפות המשטרה בהוצאות המיסוי על הרכב באמצעות <b>תוספת איזון</b>.
+                            </div>
+                          </div>
+                        </li>
+
+                        <li class="flex flex-row-reverse items-start gap-3 text-right">
+                          <span class="mt-0.5 flex-none w-7 h-7 rounded-full bg-violet-600 text-white grid place-items-center text-xs font-semibold">2</span>
+                          <div>
+                            <div class="font-semibold text-slate-900">רכב איגום / ת"ש</div>
+                            <div class="text-slate-700">
+                              תשלום שווי שימוש ברכב בהתאם למספר ימי הנסיעה באותו החודש.
+                            </div>
+                          </div>
+                        </li>
+                      </ol>
+                    </div>
+
+                    <div class="rounded-2xl bg-amber-50/80 border border-amber-200 p-4">
+                      <div class="font-semibold text-amber-900 text-center">שים לב</div>
+                      <ul class="mt-2 space-y-2 text-amber-900/90">
+                        <li>• גובה הזקיפה מגדיל את שכר הברוטו לצורך חיובי מיסים בלבד ואינו משקף את הסכום לתשלום.</li>
+                        <li>• הזקיפה מוצגת בתלוש השכר בצד ימין תחת טבלת "נתוני עזר" בשם: <b>זקיפת רכב איגום/מוצמד</b>.</li>
+                        <li>• על סכום הזקיפה יקוזזו מיסים בגובה <b>12%</b> דמי ביטוח + מס הכנסה בהתאם לשיעור המס השולי של השוטר.</li>
+                        <li>• מדובר באומדן בלבד, ייתכנו שינויים בהתאם לשנת ייצור הרכב והדגם הספציפי.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              </section>
               <!-- Toggle ONLY (always visible) -->
               <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div
@@ -51,14 +112,11 @@
                 </div>
               </section>
 
-
               <!-- Dynamic cards (hidden until choose yes/no) -->
               <div id="dynamicCards" class="hidden space-y-6">
 
-                <!-- IMPORTANT: all cards in same grid so we can swap sides -->
                 <section id="cardsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-                  
                   <!-- Benefit (always in dynamic mode) -->
                   <div id="benefitCard" class="rounded-[26px] bg-white/55 border border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
                     <div class="flex items-center justify-between">
@@ -74,9 +132,41 @@
                         <select id="carType"
                           class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300">
                           <option value="" selected disabled>בחר סוג רכב…</option>
-                          <option value="small">רכב קטן (₪ 3,200)</option>
-                          <option value="medium">רכב בינוני (₪ 4,100)</option>
-                          <option value="large">רכב גדול (₪ 5,200)</option>
+
+                          <option value="kia_stonic">ג'יפון קאיה (₪ 1,111)</option>
+                          <option value="toyota_hilux">טויוטה היילקס (₪ 7,280)</option>
+                          <option value="toyota_vigo">טויוטה ויגו (₪ 7,650)</option>
+                          <option value="toyota_yaris">טויוטה יאריס (₪ 3,260)</option>
+                          <option value="toyota_camry">טויוטה קאמרי (₪ 5,190)</option>
+                          <option value="toyota_corolla">טויוטה קורולה (₪ 4,200)</option>
+
+                          <option value="hyundai_i25">יונדאי I25 (₪ 3,340)</option>
+                          <option value="hyundai_elantra">יונדאי אלנטרה (₪ 4,160)</option>
+                          <option value="hyundai_accent">יונדאי אקסנט (₪ 3,450)</option>
+                          <option value="hyundai_i">יונדאיI (₪ 2,830)</option>
+                          <option value="hyundai_staria">יונדאיסטארייה (₪ 7,750)</option>
+
+                          <option value="mazda_2">מאזדה 2 (₪ 3,220)</option>
+
+                          <option value="mitsubishi_triton">מיצוביי טרייטון (₪ 6,500)</option>
+                          <option value="mitsubishi_other">מיצובישי (₪ 7,060)</option>
+
+                          <option value="citroen_berlingo">סיטרואן ברלינגו (₪ 4,380)</option>
+                          <option value="citroen_berlingo_7">סיטרואן ברלינגו 7 מקומות (₪ 6,470)</option>
+                          <option value="citroen_jumpy">סיטרואן ג'מפי (₪ 6,650)</option>
+
+                          <option value="skoda_octavia">סקודה אוקטביה (₪ 4,590)</option>
+                          <option value="fiat_ducato">פיאט דקאטו (₪ 9,375)</option>
+
+                          <option value="kia_ceed">קאיה סיד (₪ 4,035)</option>
+                          <option value="kia_niro">קיה נירו (₪ 3,870)</option>
+                          <option value="kia_sportage">קיה ספרטאג' (₪ 4,940)</option>
+                          <option value="kia_picanto">קיה פיקנטו (₪ 2,290)</option>
+                          <option value="kia_rio">קיה ריו (₪ 3,160)</option>
+
+                          <option value="renault_traffic">רנו טרפיק (₪ 6,600)</option>
+                          <option value="renault_megane">רנו מגאן (₪ 4,410)</option>
+                          <option value="renault_kangoo">רנו קנגו (₪ 4,070)</option>
                         </select>
                       </label>
 
@@ -117,6 +207,7 @@
                       </div>
                     </div>
                   </div>
+
                   <!-- Dates (only when NOT standard) -->
                   <div id="datesCard" class="hidden rounded-[26px] bg-white/55 border border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
                     <div class="text-slate-900 font-semibold">שימוש בפועל ברכב</div>
