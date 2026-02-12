@@ -1,7 +1,9 @@
 // ====== Config ======
 const FIXED_NI = 0.07;      // ביטוח לאומי
 const FIXED_HEALTH = 0.05;  // ביטוח בריאות
+const ALLOWANCE_AUTO_PCT = 0.71; // 71%
 
+let allowanceAuto = true; // כל עוד true - ממלאים אוטומטית
 // זמני – בהמשך תוסיפי עשרות דגמים
 const CAR_VALUES = {
   kia_stonic: 1111,
@@ -126,7 +128,14 @@ function setStandardMode(isYes) {
 
   // אם עברו ל"לא" – מאפסים תוספת איזון כדי שלא תשפיע
   if (!hasStandard && allowance) allowance.value = "";
-
+    if (hasStandard) {
+      allowanceAuto = true;
+      autoFillAllowanceIfNeeded();
+    } else {
+      // אם עברו ל"לא" – מאפסים תוספת איזון כדי שלא תשפיע
+      if (allowance) allowance.value = "";
+      allowanceAuto = true; // שיהיה מוכן לפעם הבאה
+    }
   recalc();
 }
 function daysInMonthFrom(dateObj) {
@@ -167,6 +176,19 @@ function getBenefitValue() {
   if (manual > 0) return manual;
 
   return CAR_VALUES[carType.value] ?? 0;
+}
+function autoFillAllowanceIfNeeded() {
+  if (!hasStandard) return;     // רק כש"רכב צמוד / מוצמד"
+  if (!allowance) return;
+
+  if (!allowanceAuto) return;   // המשתמש ערך ידנית -> לא לדרוס
+
+  const B = getBenefitValue();
+  if (B > 0) {
+    allowance.value = money(B * ALLOWANCE_AUTO_PCT); // ממלא 71% ומציג יפה
+  } else {
+    allowance.value = "";
+  }
 }
 
 function recalc() {
@@ -264,17 +286,38 @@ function recalc() {
     if (benefitManual) {
     benefitManual.addEventListener("input", () => {
         if (toNum(benefitManual.value) > 0 && carType) carType.value = "";
+         autoFillAllowanceIfNeeded();
         recalc();
     });
     }
     if (carType) {
     carType.addEventListener("change", () => {
         if (carType.value && benefitManual) benefitManual.value = "";
+         autoFillAllowanceIfNeeded();
         recalc();
     });
     }
     if (taxPct) taxPct.addEventListener("change", recalc);
-    if (allowance) allowance.addEventListener("input", recalc);
+    if (allowance) {
+      allowance.addEventListener("input", () => {
+        // אם הוא מתחיל להקליד -> מפסיקים לדרוס אוטומטית
+        allowanceAuto = true;
+
+        // אם יש ערך כלשהו (גם 0 לא מעניין אותנו) נחשב שזה "ידני"
+        if (allowance.value.trim() !== "") {
+          allowanceAuto = false;
+        }
+
+        // אם הוא מחק הכל -> נחזיר לאוטומט
+        if (allowance.value.trim() === "") {
+          allowanceAuto = true;
+          autoFillAllowanceIfNeeded(); // יחזיר 71% אם יש רכב
+        }
+
+        recalc();
+      });
+    }
+
 
     if (btnYes) btnYes.addEventListener("click", () => setStandardMode(true));
     if (btnNo) btnNo.addEventListener("click", () => setStandardMode(false));
