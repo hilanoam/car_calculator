@@ -8,38 +8,37 @@
   <meta name="color-scheme" content="light">
 </head>
 
-<body class="min-h-screen text-slate-800">
+<body class="min-h-screen text-slate-800 text-[16.5px] sm:text-[17.5px] leading-relaxed">
   <div class="min-h-screen bg-[radial-gradient(1200px_circle_at_90%_10%,#e9d5ff_0%,transparent_55%),radial-gradient(1000px_circle_at_10%_10%,#dbeafe_0%,transparent_55%),radial-gradient(900px_circle_at_50%_100%,#c7d2fe_0%,transparent_60%)]">
     <div class="px-4 py-6">
       <div class="mx-auto max-w-6xl">
 
         <div class="rounded-[28px] border border-white/40 bg-white/40 backdrop-blur-2xl shadow-[0_30px_80px_rgba(31,41,55,0.18)] overflow-hidden">
           <div class="flex">
-            <main class="flex-1 p-6 space-y-6">
+            <main class="flex-1 p-6 sm:p-8 space-y-6">
 
               <!-- Header -->
-              <!-- Header (רק כותרת ממורכזת) -->
               <header class="w-full text-center space-y-2">
-                <div class="text-slate-900 text-xl font-semibold">
+                <div class="text-slate-900 text-2xl sm:text-3xl font-semibold tracking-tight">
                   סימולטור אומדן שווי שימוש ברכב
                 </div>
               </header>
 
-              <!-- Intro / Explanation (מחוץ ל-header!) -->
+              <!-- Intro / Explanation -->
               <section class="mx-auto w-full max-w-4xl">
-                <div class="rounded-[26px] bg-white/60 border border-white/50 backdrop-blur-2xl p-6 shadow-[0_22px_50px_rgba(31,41,55,.12)] text-right">
-                  
+                <div class="rounded-[26px] bg-white/60 border border-white/50 backdrop-blur-2xl p-6 sm:p-7 shadow-[0_22px_50px_rgba(31,41,55,.12)] text-right">
+
                   <div class="text-center">
-                    <h2 class="text-slate-900 text-base sm:text-lg font-semibold">
+                    <h2 class="text-slate-900 text-lg sm:text-xl font-semibold tracking-tight">
                       מידע חשוב לפני שמתחילים
                     </h2>
-                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    <p class="mt-2 text-base text-slate-600 leading-relaxed">
                       על פי פקודת מס הכנסה, העמדת רכב מהעבודה לשימוש העובד נחשבת להטבה שוות כסף החייבת במס,
                       המכונה <span class="font-semibold text-slate-800">"שווי שימוש ברכב"</span>.
                     </p>
                   </div>
 
-                  <div class="mt-5 text-sm text-slate-700 leading-relaxed space-y-3">
+                  <div class="mt-5 text-base text-slate-700 leading-relaxed space-y-3">
                     <p>
                       מחלקת שכר וגמלאות בחשבות המשטרה היא הגוף האחראי על ניהול תשלומי השכר והגמלאות במשטרת ישראל.
                       במסגרת המאמץ לשפר את השירות הניתן לשוטרי משטרת ישראל בנינו עבורכם מחשבון
@@ -48,13 +47,13 @@
                     </p>
 
                     <div class="rounded-2xl bg-white/55 border border-white/50 p-4">
-                      <div class="text-slate-900 font-semibold text-sm text-center">
+                      <div class="text-slate-900 font-semibold text-base text-center">
                         תשלום בגין שימוש ברכב מתקיים בשני מצבים
                       </div>
 
                       <ol class="mt-3 space-y-3 list-none p-0 m-0">
                         <li class="flex flex-row-reverse items-start gap-3 text-right">
-                          <span class="mt-0.5 flex-none w-7 h-7 rounded-full bg-violet-600 text-white grid place-items-center text-xs font-semibold">2</span>
+                          <span class="mt-0.5 flex-none w-8 h-8 rounded-full bg-violet-600 text-white grid place-items-center text-sm font-semibold">1</span>
                           <div>
                             <div class="font-semibold text-slate-900">רכב צמוד / מוצמד</div>
                             <div class="text-slate-700">
@@ -64,7 +63,7 @@
                         </li>
 
                         <li class="flex flex-row-reverse items-start gap-3 text-right">
-                          <span class="mt-0.5 flex-none w-7 h-7 rounded-full bg-violet-600 text-white grid place-items-center text-xs font-semibold">2</span>
+                          <span class="mt-0.5 flex-none w-8 h-8 rounded-full bg-violet-600 text-white grid place-items-center text-sm font-semibold">2</span>
                           <div>
                             <div class="font-semibold text-slate-900">רכב איגום / ת"ש</div>
                             <div class="text-slate-700">
@@ -77,7 +76,7 @@
 
                     <div class="rounded-2xl bg-amber-50/80 border border-amber-200 p-4">
                       <div class="font-semibold text-amber-900 text-center">שים לב</div>
-                      <ul class="mt-2 space-y-2 text-amber-900/90">
+                      <ul class="mt-2 space-y-2 text-amber-900/90 text-base">
                         <li>• גובה הזקיפה מגדיל את שכר הברוטו לצורך חיובי מיסים בלבד ואינו משקף את הסכום לתשלום.</li>
                         <li>• הזקיפה מוצגת בתלוש השכר בצד ימין תחת טבלת "נתוני עזר" בשם: <b>זקיפת רכב איגום/מוצמד</b>.</li>
                         <li>• על סכום הזקיפה יקוזזו מיסים בגובה <b>12%</b> דמי ביטוח + מס הכנסה בהתאם לשיעור המס השולי של השוטר.</li>
@@ -88,49 +87,50 @@
 
                 </div>
               </section>
-              <!-- Toggle ONLY (always visible) -->
+
+              <!-- Toggle ONLY -->
               <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div
-                    class="mx-auto w-full max-w-md rounded-3xl bg-white/65 border border-white/45 backdrop-blur-xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.14)]"
-                    style="grid-column: 1 / -1;">
-                    <div class="text-slate-900 font-semibold">
-                    בחר סוג שימוש ברכב 
-                    </div>
+                  class="mx-auto w-full max-w-md rounded-3xl bg-white/65 border border-white/45 backdrop-blur-xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.14)]"
+                  style="grid-column: 1 / -1;">
+                  <div class="text-slate-900 font-semibold text-base">
+                    בחר סוג שימוש ברכב
+                  </div>
 
                   <div class="mt-4 flex items-center justify-center gap-3">
                     <button id="btnStandardYes"
-                      class="px-4 py-2 rounded-2xl border border-white/50 bg-white/70 hover:bg-white/90 transition shadow-sm text-sm">
-                     רכב צמוד / מוצמד
+                      class="px-4 py-2.5 rounded-2xl border border-white/50 bg-white/70 hover:bg-white/90 transition shadow-sm text-base">
+                      רכב צמוד / מוצמד
                     </button>
 
                     <button id="btnStandardNo"
-                      class="px-4 py-2 rounded-2xl border border-white/40 bg-white/30 hover:bg-white/60 transition text-sm">
-                     רכב איגום / ת"ש
+                      class="px-4 py-2.5 rounded-2xl border border-white/40 bg-white/30 hover:bg-white/60 transition text-base">
+                      רכב איגום / ת"ש
                     </button>
                   </div>
-
                 </div>
               </section>
 
-              <!-- Dynamic cards (hidden until choose yes/no) -->
+              <!-- Dynamic cards -->
               <div id="dynamicCards" class="hidden space-y-6">
 
                 <section id="cardsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-                  <!-- Benefit (always in dynamic mode) -->
+                  <!-- Benefit -->
                   <div id="benefitCard" class="rounded-[26px] bg-white/55 border border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
                     <div class="flex items-center justify-between">
                       <div>
-                        <div class="text-slate-900 font-semibold">זקיפת הטבה לרכב</div>
-                        <div class="text-xs text-slate-500 mt-1">בחר קטגוריית רכב או הזן סכום ידני</div>
+                        <div class="text-slate-900 font-semibold text-lg">זקיפת הטבה לרכב</div>
+                        <div class="text-sm text-slate-500 mt-1">בחר קטגוריית רכב או הזן סכום ידני</div>
                       </div>
                     </div>
 
                     <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <label class="block">
-                        <span class="text-xs text-slate-600">קטגוריית רכב</span>
+                        <span class="text-sm text-slate-600">קטגוריית רכב</span>
                         <select id="carType"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                          
                           <option value="" selected disabled>בחר סוג רכב…</option>
 
                           <option value="kia_stonic">ג'יפון קאיה (₪ 1,111)</option>
@@ -169,19 +169,21 @@
                           <option value="renault_kangoo">רנו קנגו (₪ 4,070)</option>
                         </select>
                       </label>
+                        </select>
+                      </label>
 
                       <label class="block">
-                        <span class="text-xs text-slate-600">או הזן סכום (₪)</span>
+                        <span class="text-sm text-slate-600">או הזן סכום (₪)</span>
                         <input id="benefitManual" type="number" inputmode="decimal" min="0" step="0.01"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                       </label>
                     </div>
 
                     <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <label class="block">
-                        <span class="text-xs text-slate-600">אחוז מס שולי</span>
+                        <span class="text-sm text-slate-600">אחוז מס שולי</span>
                         <select id="taxPct"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300">
                           <option value="" selected disabled>בחר אחוז מס שולי…</option>
                           <option value="10">10%</option>
                           <option value="14">14%</option>
@@ -194,8 +196,8 @@
                       </label>
 
                       <div class="rounded-2xl bg-white/45 border border-white/40 p-4">
-                        <div class="text-xs text-slate-500">פירוט ניכוי על זקיפת הטבת רכב</div>
-                        <div class="mt-2 space-y-1 text-sm">
+                        <div class="text-sm text-slate-500">פירוט ניכוי על זקיפת הטבת רכב</div>
+                        <div class="mt-2 space-y-1 text-base">
                           <div class="flex justify-between"><span>מס שולי</span><b>₪ <span id="taxOnBenefit">0.00</span></b></div>
                           <div class="flex justify-between"><span>ביטוח לאומי (7%)</span><b>₪ <span id="nOnBenefit">0.00</span></b></div>
                           <div class="flex justify-between"><span>בריאות (5%)</span><b>₪ <span id="hOnBenefit">0.00</span></b></div>
@@ -208,29 +210,29 @@
                     </div>
                   </div>
 
-                  <!-- Dates (only when NOT standard) -->
+                  <!-- Dates -->
                   <div id="datesCard" class="hidden rounded-[26px] bg-white/55 border border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
-                    <div class="text-slate-900 font-semibold">שימוש בפועל ברכב</div>
-                    <div class="text-xs text-slate-500 mt-1">הזן תאריכים כדי לחשב חיוב יחסי לפי ימים</div>
+                    <div class="text-slate-900 font-semibold text-lg">שימוש בפועל ברכב</div>
+                    <div class="text-sm text-slate-500 mt-1">הזן תאריכים כדי לחשב חיוב יחסי לפי ימים</div>
 
                     <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <label class="block">
-                        <span class="text-xs text-slate-600">תאריך התחלה</span>
+                        <span class="text-sm text-slate-600">תאריך התחלה</span>
                         <input id="startDate" type="date"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                       </label>
 
                       <label class="block">
-                        <span class="text-xs text-slate-600">תאריך סיום</span>
+                        <span class="text-sm text-slate-600">תאריך סיום</span>
                         <input id="endDate" type="date"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                       </label>
                     </div>
 
                     <div class="mt-3 rounded-2xl bg-white/45 border border-white/40 p-4">
-                      <div class="text-xs text-slate-500">סיכום חישוב</div>
+                      <div class="text-sm text-slate-500">סיכום חישוב</div>
 
-                      <div class="mt-2 space-y-1 text-sm">
+                      <div class="mt-2 space-y-1 text-base">
                         <div class="flex justify-between"><span>ימים בחודש</span><b><span id="daysInMonth">—</span></b></div>
                         <div class="flex justify-between"><span>ימים בשימוש</span><b><span id="daysUsed">—</span></b></div>
 
@@ -240,25 +242,24 @@
                         </div>
                       </div>
 
-                      <div id="dateError" class="mt-2 text-xs text-rose-600 hidden"></div>
+                      <div id="dateError" class="mt-2 text-sm text-rose-600 hidden"></div>
                     </div>
                   </div>
 
-                  <!-- Allowance (only when standard YES) -->
-                  <div id="field2Card" class="rounded-[26px] bg-white/55 border 
-                     border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
-                    <div class="text-slate-900 font-semibold">תוספת איזון</div>
+                  <!-- Allowance -->
+                  <div id="field2Card" class="rounded-[26px] bg-white/55 border border-white/45 backdrop-blur-2xl p-5 shadow-[0_22px_50px_rgba(31,41,55,.12)]">
+                    <div class="text-slate-900 font-semibold text-lg">תוספת איזון</div>
 
                     <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <label class="block">
-                        <span class="text-xs text-slate-600">תוספת איזון (₪)</span>
+                        <span class="text-sm text-slate-600">תוספת איזון (₪)</span>
                         <input id="allowance" type="number" inputmode="decimal" min="0" step="0.01"
-                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-2.5 text-sm shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+                          class="mt-1 w-full rounded-2xl bg-white/60 border border-white/45 backdrop-blur-xl px-4 py-3 text-base shadow-[0_12px_28px_rgba(31,41,55,.08)] focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                       </label>
 
                       <div class="rounded-2xl bg-white/45 border border-white/40 p-4">
-                        <div class="text-xs text-slate-500">פירוט ניכוי על תוספת איזון</div>
-                        <div class="mt-2 space-y-1 text-sm">
+                        <div class="text-sm text-slate-500">פירוט ניכוי על תוספת איזון</div>
+                        <div class="mt-2 space-y-1 text-base">
                           <div class="flex justify-between"><span>מס שולי (<span id="taxPct2">—</span>)</span><b>₪ <span id="taxOnAllowance">0.00</span></b></div>
                           <div class="flex justify-between"><span>ביטוח לאומי (7%)</span><b>₪ <span id="nOnAllowance">0.00</span></b></div>
                           <div class="flex justify-between"><span>בריאות (5%)</span><b>₪ <span id="hOnAllowance">0.00</span></b></div>
@@ -273,13 +274,13 @@
 
                 </section>
 
-                <!-- Result (always after choosing) -->
+                <!-- Result -->
                 <section class="rounded-[26px] bg-gradient-to-b from-indigo-600 to-violet-600 text-white p-5 shadow-[0_30px_70px_rgba(99,102,241,.35)]">
-                  <div class="text-sm opacity-90">סכום הניכוי נטו בגין הרכב</div>
+                  <div class="text-base opacity-90">סכום הניכוי נטו בגין הרכב</div>
 
                   <div class="mt-3 rounded-2xl bg-white/15 border border-white/20 p-4 backdrop-blur-xl">
-                    <div class="text-xs opacity-90">תוצאה סופית</div>
-                    <div class="mt-1 text-3xl font-semibold">
+                    <div class="text-sm opacity-90">תוצאה סופית</div>
+                    <div class="mt-1 text-4xl sm:text-5xl font-semibold tracking-tight">
                       ₪ <span id="finalValue">0.00</span>
                     </div>
                   </div>
