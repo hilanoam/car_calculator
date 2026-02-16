@@ -1199,3 +1199,8 @@ video {
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.45),
               0 12px 25px rgba(139, 92, 246, 0.25);
 }
+
+.input-error {
+  outline: 2px solid rgb(244 63 94 / 0.55); /* rose */
+  box-shadow: 0 0 0 4px rgb(244 63 94 / 0.12);
+}

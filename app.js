@@ -4,6 +4,7 @@ const FIXED_HEALTH = 0.05;  // ביטוח בריאות
 const ALLOWANCE_AUTO_PCT = 0.71; // 71%
 
 let allowanceAuto = true; // כל עוד true - ממלאים אוטומטית
+
 // זמני – בהמשך תוסיפי עשרות דגמים
 const CAR_VALUES = {
   kia_stonic: 1111,
@@ -42,7 +43,7 @@ const CAR_VALUES = {
   renault_kangoo: 4070,
 };
 
-
+// ====== Utils ======
 function toNum(v) {
   const n = Number(v);
   return Number.isFinite(n) ? n : 0;
@@ -59,17 +60,10 @@ function pctToNum(pctStr) {
 // ====== Elements ======
 const dynamicCards = document.getElementById("dynamicCards");
 const datesCard = document.getElementById("datesCard");
-const startDate = document.getElementById("startDate");
-const endDate = document.getElementById("endDate");
-
-const daysInMonthEl = document.getElementById("daysInMonth");
-const daysUsedEl = document.getElementById("daysUsed");
-const payableDaysEl = document.getElementById("payableDays");
-const proratedCostEl = document.getElementById("proratedCost");
-const dateErrorEl = document.getElementById("dateError");
 
 const btnYes = document.getElementById("btnStandardYes");
 const btnNo = document.getElementById("btnStandardNo");
+
 const field2Card = document.getElementById("field2Card");
 
 const carType = document.getElementById("carType");
@@ -77,13 +71,29 @@ const benefitManual = document.getElementById("benefitManual");
 const taxPct = document.getElementById("taxPct");
 const allowance = document.getElementById("allowance");
 
-// Field 1 breakdown
+const startDate = document.getElementById("startDate");
+const endDate = document.getElementById("endDate");
+
+let datesMode = "dates"; // "dates" | "days"
+const btnModeDates = document.getElementById("btnModeDates");
+const btnModeDays = document.getElementById("btnModeDays");
+const datesInputs = document.getElementById("datesInputs");
+const daysInputs = document.getElementById("daysInputs");
+const useMonth = document.getElementById("useMonth");
+const daysCount = document.getElementById("daysCount");
+
+const daysInMonthEl = document.getElementById("daysInMonth");
+const daysUsedEl = document.getElementById("daysUsed");
+const proratedCostEl = document.getElementById("proratedCost");
+const dateErrorEl = document.getElementById("dateError");
+
+// Breakdown field 1
 const taxOnBenefit = document.getElementById("taxOnBenefit");
 const nOnBenefit = document.getElementById("nOnBenefit");
 const hOnBenefit = document.getElementById("hOnBenefit");
 const sumBenefit = document.getElementById("sumBenefit");
 
-// Field 2 breakdown
+// Breakdown field 2
 const taxPct2 = document.getElementById("taxPct2");
 const taxOnAllowance = document.getElementById("taxOnAllowance");
 const nOnAllowance = document.getElementById("nOnAllowance");
@@ -93,72 +103,14 @@ const netAllowance = document.getElementById("netAllowance");
 // Final
 const finalValue = document.getElementById("finalValue");
 
+// Calc button
+const btnCalc = document.getElementById("btnCalc");
+
 // ====== State ======
-let hasStandard = false;
+let hasStandard = null; // null עד שלא בוחרים
+let submitted = false;
 
 // ====== UI helpers ======
-function setStandardMode(isYes) {
-  hasStandard = isYes;
-   
-  if (dynamicCards) {
-    dynamicCards.classList.remove("hidden");
-  }
-  if (field2Card) {
-    field2Card.classList.toggle("hidden", !hasStandard);
-  }
-  if (datesCard) datesCard.classList.toggle("hidden", hasStandard);
-    btnYes.classList.remove(
-    "ring-2",
-    "ring-violet-400",
-    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
-  );
-  btnNo.classList.remove(
-    "ring-2",
-    "ring-violet-400",
-    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
-  );
-
-  // סימון הבחירה
-  const activeBtn = isYes ? btnYes : btnNo;
-  activeBtn.classList.add(
-    "ring-2",
-    "ring-violet-400",
-    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
-  );
-
-  // אם עברו ל"לא" – מאפסים תוספת איזון כדי שלא תשפיע
-  if (!hasStandard && allowance) allowance.value = "";
-    if (hasStandard) {
-      allowanceAuto = true;
-      autoFillAllowanceIfNeeded();
-    } else {
-      // אם עברו ל"לא" – מאפסים תוספת איזון כדי שלא תשפיע
-      if (allowance) allowance.value = "";
-      allowanceAuto = true; // שיהיה מוכן לפעם הבאה
-    }
-  recalc();
-}
-function daysInMonthFrom(dateObj) {
-  const y = dateObj.getFullYear();
-  const m = dateObj.getMonth(); // 0-11
-  return new Date(y, m + 1, 0).getDate();
-}
-
-function parseDateInput(val) {
-  // val like "2026-02-09"
-  if (!val) return null;
-  const d = new Date(val + "T00:00:00");
-  return Number.isNaN(d.getTime()) ? null : d;
-}
-
-function diffDaysInclusive(a, b) {
-  // inclusive difference in days between two Date objects
-  const ms = 24 * 60 * 60 * 1000;
-  const start = new Date(a.getFullYear(), a.getMonth(), a.getDate());
-  const end = new Date(b.getFullYear(), b.getMonth(), b.getDate());
-  return Math.floor((end - start) / ms) + 1;
-}
-
 function showDateError(msg) {
   if (!dateErrorEl) return;
   if (!msg) {
@@ -170,183 +122,352 @@ function showDateError(msg) {
   }
 }
 
-// ====== Calculation ======
-function getBenefitValue() {
-  const manual = toNum(benefitManual.value);
-  if (manual > 0) return manual;
+function setDatesMode(mode) {
+  datesMode = mode;
 
-  return CAR_VALUES[carType.value] ?? 0;
+  if (datesInputs) datesInputs.classList.toggle("hidden", mode !== "dates");
+  if (daysInputs) daysInputs.classList.toggle("hidden", mode !== "days");
+
+  btnModeDates?.classList.remove("ring-2", "ring-violet-400");
+  btnModeDays?.classList.remove("ring-2", "ring-violet-400");
+  (mode === "dates" ? btnModeDates : btnModeDays)?.classList.add("ring-2", "ring-violet-400");
+
+  showDateError("");
+
+  // אל תחשבי לפני לחיצה על "חשב"
+  if (submitted) recalc();
 }
-function autoFillAllowanceIfNeeded() {
-  if (!hasStandard) return;     // רק כש"רכב צמוד / מוצמד"
-  if (!allowance) return;
 
-  if (!allowanceAuto) return;   // המשתמש ערך ידנית -> לא לדרוס
+function setStandardMode(isYes) {
+  hasStandard = isYes;
 
-  const B = getBenefitValue();
-  if (B > 0) {
-    allowance.value = money(B * ALLOWANCE_AUTO_PCT); // ממלא 71% ומציג יפה
+  dynamicCards?.classList.remove("hidden");
+
+  // צמוד => תוספת איזון מוצגת, כרטיס תאריכים מוסתר
+  field2Card?.classList.toggle("hidden", !hasStandard);
+  datesCard?.classList.toggle("hidden", hasStandard);
+
+  // highlight כפתור
+  btnYes?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+  btnNo?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+  (isYes ? btnYes : btnNo)?.classList.add("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+
+  // מעבר ל"איגום" -> מאפסים תוספת איזון שלא תשפיע
+  if (!hasStandard && allowance) allowance.value = "";
+
+  // בצמוד: ממלאים תוספת איזון אוטומטית (רק אם לא כתבו ידנית)
+  if (hasStandard) {
+    allowanceAuto = true;
+    autoFillAllowanceIfNeeded();
   } else {
-    allowance.value = "";
+    allowanceAuto = true;
   }
+
+  // אל תחשבי לפני לחיצה על "חשב"
+  if (submitted) recalc();
 }
 
-function recalc() {
+function daysInMonthFromMonthInput(val) {
+  // val like "2026-02"
+  if (!val) return null;
+  const [y, m] = val.split("-").map(Number);
+  if (!y || !m) return null;
+  return new Date(y, m, 0).getDate(); // m is 1-12
+}
+
+function daysInMonthFrom(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = dateObj.getMonth(); // 0-11
+  return new Date(y, m + 1, 0).getDate();
+}
+
+function parseDateInput(val) {
+  if (!val) return null;
+  const d = new Date(val + "T00:00:00");
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function diffDaysInclusive(a, b) {
+  const ms = 24 * 60 * 60 * 1000;
+  const start = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+  const end = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.floor((end - start) / ms) + 1;
+}
+
+// ====== Calculation helpers ======
+function getBenefitValue() {
+  const manual = toNum(benefitManual?.value);
+  if (manual > 0) return manual;
+  return CAR_VALUES[carType?.value] ?? 0;
+}
+
+function autoFillAllowanceIfNeeded() {
+  if (hasStandard !== true) return;
+  if (!allowance) return;
+  if (!allowanceAuto) return;
+
   const B = getBenefitValue();
-  const A = hasStandard ? toNum(allowance.value) : 0;
+  allowance.value = B > 0 ? money(B * ALLOWANCE_AUTO_PCT) : "";
+}
 
-  const T = pctToNum(taxPct.value);
-  const R = T + FIXED_NI + FIXED_HEALTH;
+// ====== Validation (אדום רק אחרי "חשב") ======
+function mark(el, ok) {
+  if (!el) return;
+  if (!submitted) {
+    el.classList.remove("input-error");
+    return;
+  }
+  el.classList.toggle("input-error", !ok);
+}
 
+function clearAllMarks() {
+  [carType, benefitManual, taxPct, allowance, startDate, endDate, useMonth, daysCount].forEach((el) => {
+    if (el) el.classList.remove("input-error");
+  });
+}
+
+function stopWithError(msg) {
+  showDateError(msg);
+  if (finalValue) finalValue.textContent = "—";
+  return { ok: false };
+}
+
+function validateRequired() {
+  if (!submitted) return { ok: false };
+
+  clearAllMarks();
+  showDateError("");
+
+  // חובה לבחור סוג שימוש
+  if (hasStandard !== true && hasStandard !== false) {
+    return stopWithError("בחרי סוג שימוש ברכב כדי לחשב.");
+  }
+
+  // חובה לבחור רכב או להזין ידני
+  const manual = toNum(benefitManual?.value);
+  const hasCar = !!carType?.value;
+  const hasManual = manual > 0;
+
+  mark(carType, hasCar || hasManual);
+  mark(benefitManual, hasCar || hasManual);
+  if (!hasCar && !hasManual) {
+    return stopWithError("בחרי קטגוריית רכב או הזיני סכום ידני.");
+  }
+
+  // חובה מס שולי
+  const hasTax = !!taxPct?.value;
+  mark(taxPct, hasTax);
+  if (!hasTax) {
+    return stopWithError("בחרי אחוז מס שולי.");
+  }
+
+  // בצמוד חובה תוספת איזון (גם אם אוטומטי – חייב להיות לא ריק)
+  if (hasStandard) {
+    const hasAllow = allowance?.value?.trim() !== "";
+    mark(allowance, hasAllow);
+    if (!hasAllow) {
+      return stopWithError("תוספת איזון היא שדה חובה ברכב צמוד/מוצמד.");
+    }
+  }
+
+  // באיגום חובה תאריכים או חודש+ימים
+  if (!hasStandard) {
+    if (datesMode === "dates") {
+      const hasS = !!startDate?.value;
+      const hasE = !!endDate?.value;
+      mark(startDate, hasS);
+      mark(endDate, hasE);
+      if (!hasS || !hasE) {
+        return stopWithError("בחרי תאריך התחלה ותאריך סיום.");
+      }
+    } else {
+      const hasM = !!useMonth?.value;
+      const usedRaw = daysCount?.value?.trim();
+      const used = Math.floor(toNum(usedRaw));
+      const hasD = usedRaw !== "" && Number.isFinite(used) && used >= 0;
+
+      mark(useMonth, hasM);
+      mark(daysCount, hasD);
+
+      if (!hasM || !hasD) {
+        return stopWithError("בחרי חודש והזיני מספר ימי נסיעה.");
+      }
+    }
+  }
+
+  return { ok: true };
+}
+
+// ====== Main calc ======
+function recalc() {
+  if (!submitted) {
+    if (finalValue) finalValue.textContent = "—";
+    return;
+  }
+
+  const v = validateRequired();
+  if (!v.ok) return;
+
+  const B = getBenefitValue();
+  const T = pctToNum(taxPct?.value);
+
+  // field1 cost
   const taxB = B * T;
   const niB = B * FIXED_NI;
   const healthB = B * FIXED_HEALTH;
   const cost1 = taxB + niB + healthB;
 
-  // שדה 2: ניכויים על תוספת איזון, והנטו שנשאר
+  // field2 net
+  const A = hasStandard ? toNum(allowance?.value) : 0;
   const taxA = A * T;
   const niA = A * FIXED_NI;
   const healthA = A * FIXED_HEALTH;
   const net2 = A - (taxA + niA + healthA);
 
-  // סופי: cost1 - net2 (אם אין תקינה net2=0)
-  let final;
+  let final = 0;
 
   if (hasStandard) {
-    // כן תקינה – כמו קודם
     final = cost1 - net2;
-    // (אפשר לאפס תצוגות ימים)
+
     if (daysInMonthEl) daysInMonthEl.textContent = "—";
     if (daysUsedEl) daysUsedEl.textContent = "—";
-    if (payableDaysEl) payableDaysEl.textContent = "—";
     if (proratedCostEl) proratedCostEl.textContent = money(0);
     showDateError("");
   } else {
-    // לא תקינה – חישוב לפי ימים
-    const s = parseDateInput(startDate?.value);
-    const e = parseDateInput(endDate?.value);
+    // איגום
+    if (datesMode === "days") {
+      const dim = daysInMonthFromMonthInput(useMonth?.value);
+      const used = Math.floor(toNum(daysCount?.value));
 
-    // אם אין תאריכים – כרגע נחשב 0 (או אפשר להציג cost1, מה שתרצי)
-    if (!s || !e) {
-      final = 0;
-      if (daysInMonthEl) daysInMonthEl.textContent = "—";
-      if (daysUsedEl) daysUsedEl.textContent = "—";
-      if (payableDaysEl) payableDaysEl.textContent = "—";
-      if (proratedCostEl) proratedCostEl.textContent = money(0);
+      if (!dim) return stopWithError("בחרי חודש כדי לחשב ימים בחודש (לדוגמה 2026-02).");
+      if (used > dim) return stopWithError(`מספר הימים לא יכול להיות גדול ממספר הימים בחודש (${dim}).`);
+
+      let pay = 0;
+      if (used <= 1) pay = 0;
+      else if (used >= 10) pay = cost1;
+      else pay = (cost1 / dim) * (used - 1);
+
+      final = pay;
+
+      if (daysInMonthEl) daysInMonthEl.textContent = String(dim);
+      if (daysUsedEl) daysUsedEl.textContent = String(used);
+      if (proratedCostEl) proratedCostEl.textContent = money(pay);
       showDateError("");
-    } else if (e < s) {
-      final = 0;
-      showDateError("תאריך סיום חייב להיות אחרי תאריך התחלה.");
-    } else if (s.getFullYear() !== e.getFullYear() || s.getMonth() !== e.getMonth()) {
-      final = 0;
-      showDateError("כרגע החישוב תומך בתאריכים באותו חודש בלבד.");
     } else {
-      showDateError("");
+      const s = parseDateInput(startDate?.value);
+      const e = parseDateInput(endDate?.value);
+
+      if (!s || !e) return stopWithError("בחרי תאריך התחלה ותאריך סיום.");
+      if (e < s) return stopWithError("תאריך סיום חייב להיות אחרי תאריך התחלה.");
+      if (s.getFullYear() !== e.getFullYear() || s.getMonth() !== e.getMonth()) {
+        return stopWithError("כרגע החישוב תומך בתאריכים באותו חודש בלבד.");
+      }
 
       const dim = daysInMonthFrom(s);
       const used = diffDaysInclusive(s, e);
 
-      let pay;
+      let pay = 0;
       if (used <= 1) pay = 0;
       else if (used >= 10) pay = cost1;
-      else {
-        const payableDays = used - 1; // יום חינם
-        pay = (cost1 / dim) * payableDays;
-      }
+      else pay = (cost1 / dim) * (used - 1);
 
       final = pay;
 
-      // Render לכרטיס התאריכים
       if (daysInMonthEl) daysInMonthEl.textContent = String(dim);
       if (daysUsedEl) daysUsedEl.textContent = String(used);
-
-      const pd = used <= 1 ? 0 : (used >= 10 ? dim : (used - 1));
-      if (payableDaysEl) payableDaysEl.textContent = String(pd);
-
       if (proratedCostEl) proratedCostEl.textContent = money(pay);
+      showDateError("");
     }
   }
 
- // ====== Render ======
-    if (taxOnBenefit) taxOnBenefit.textContent = money(taxB);
-    if (nOnBenefit) nOnBenefit.textContent = money(niB);
-    if (hOnBenefit) hOnBenefit.textContent = money(healthB);
-    if (sumBenefit) sumBenefit.textContent = money(cost1);
+  // ====== Render ======
+  if (taxOnBenefit) taxOnBenefit.textContent = money(taxB);
+  if (nOnBenefit) nOnBenefit.textContent = money(niB);
+  if (hOnBenefit) hOnBenefit.textContent = money(healthB);
+  if (sumBenefit) sumBenefit.textContent = money(cost1);
 
-    if (taxPct2) taxPct2.textContent = taxPct?.value ? `${taxPct.value}%` : "—";
-    if (taxOnAllowance) taxOnAllowance.textContent = money(taxA);
-    if (nOnAllowance) nOnAllowance.textContent = money(niA);
-    if (hOnAllowance) hOnAllowance.textContent = money(healthA);
-    if (netAllowance) netAllowance.textContent = money(net2);
+  if (taxPct2) taxPct2.textContent = taxPct?.value ? `${taxPct.value}%` : "—";
+  if (taxOnAllowance) taxOnAllowance.textContent = money(taxA);
+  if (nOnAllowance) nOnAllowance.textContent = money(niA);
+  if (hOnAllowance) hOnAllowance.textContent = money(healthA);
+  if (netAllowance) netAllowance.textContent = money(net2);
 
-    if (finalValue) finalValue.textContent = money(final);
-    }
+  if (finalValue) finalValue.textContent = money(final);
+}
 
-    // ====== UX: או רכב או ידני (אחד מאפס את השני) ======
-    if (benefitManual) {
-    benefitManual.addEventListener("input", () => {
-        if (toNum(benefitManual.value) > 0 && carType) carType.value = "";
-         autoFillAllowanceIfNeeded();
-        recalc();
-    });
-    }
-    if (carType) {
-    carType.addEventListener("change", () => {
-        if (carType.value && benefitManual) benefitManual.value = "";
-         autoFillAllowanceIfNeeded();
-        recalc();
-    });
-    }
-    if (taxPct) taxPct.addEventListener("change", recalc);
-    if (allowance) {
-      allowance.addEventListener("input", () => {
-        // אם הוא מתחיל להקליד -> מפסיקים לדרוס אוטומטית
-        allowanceAuto = true;
+// ====== Listeners ======
+function maybeRecalc() {
+  if (submitted) recalc();
+}
 
-        // אם יש ערך כלשהו (גם 0 לא מעניין אותנו) נחשב שזה "ידני"
-        if (allowance.value.trim() !== "") {
-          allowanceAuto = false;
-        }
+// רכב או ידני (מאפסים אחד את השני)
+benefitManual?.addEventListener("input", () => {
+  if (toNum(benefitManual.value) > 0 && carType) carType.value = "";
+  autoFillAllowanceIfNeeded();
+  maybeRecalc();
+});
 
-        // אם הוא מחק הכל -> נחזיר לאוטומט
-        if (allowance.value.trim() === "") {
-          allowanceAuto = true;
-          autoFillAllowanceIfNeeded(); // יחזיר 71% אם יש רכב
-        }
+carType?.addEventListener("change", () => {
+  if (carType.value && benefitManual) benefitManual.value = "";
+  autoFillAllowanceIfNeeded();
+  maybeRecalc();
+});
 
-        recalc();
-      });
-    }
+taxPct?.addEventListener("change", maybeRecalc);
 
+// allowance: אם מתחילים להקליד -> מפסיקים אוטומטי
+allowance?.addEventListener("input", () => {
+  allowanceAuto = allowance.value.trim() === "";
+  if (allowanceAuto) autoFillAllowanceIfNeeded();
+  maybeRecalc();
+});
 
-    if (btnYes) btnYes.addEventListener("click", () => setStandardMode(true));
-    if (btnNo) btnNo.addEventListener("click", () => setStandardMode(false));
-    if (startDate) startDate.addEventListener("change", recalc);
-    if (endDate) endDate.addEventListener("change", recalc);
+// כפתורי סוג שימוש
+btnYes?.addEventListener("click", () => setStandardMode(true));
+btnNo?.addEventListener("click", () => setStandardMode(false));
 
-    // ====== Init (ריק, בלי ברירת מחדל) ======
-    if (carType) carType.value = "";
-    if (benefitManual) benefitManual.value = "";
-    if (taxPct) taxPct.value = "";
-    if (allowance) allowance.value = "";
-    hasStandard = null;
+// מצב תאריכים / ימים
+btnModeDates?.addEventListener("click", () => setDatesMode("dates"));
+btnModeDays?.addEventListener("click", () => setDatesMode("days"));
 
-    // מסתירים הכול בהתחלה
-    field2Card?.classList.add("hidden");
-    datesCard?.classList.add("hidden");
-    dynamicCards?.classList.add("hidden");
+// קלטי תאריכים / ימים
+startDate?.addEventListener("change", maybeRecalc);
+endDate?.addEventListener("change", maybeRecalc);
+useMonth?.addEventListener("change", maybeRecalc);
+daysCount?.addEventListener("input", maybeRecalc);
 
-    // בלי סימון כפתורים
-    btnYes?.classList.remove(
-    "ring-2",
-    "ring-violet-400",
-    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
-    );
-    btnNo?.classList.remove(
-    "ring-2",
-    "ring-violet-400",
-    "shadow-[0_12px_25px_rgba(139,92,246,0.35)]"
-    );
+// כפתור חשב
+btnCalc?.addEventListener("click", () => {
+  submitted = true;
+  recalc();
+});
 
-    dynamicCards.classList.add("hidden");
-    recalc();
+// ====== Init ======
+function init() {
+  // התחל ריק
+  if (carType) carType.value = "";
+  if (benefitManual) benefitManual.value = "";
+  if (taxPct) taxPct.value = "";
+  if (allowance) allowance.value = "";
+
+  submitted = false;
+  hasStandard = null;
+
+  // מסתירים הכול בהתחלה
+  field2Card?.classList.add("hidden");
+  datesCard?.classList.add("hidden");
+  dynamicCards?.classList.add("hidden");
+
+  // בלי סימון כפתורים
+  btnYes?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+  btnNo?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+
+  // מצב ברירת מחדל לתאריכים
+  setDatesMode("dates");
+
+  clearAllMarks();
+  showDateError("");
+  if (finalValue) finalValue.textContent = "—";
+}
+
+init();
