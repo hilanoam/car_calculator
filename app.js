@@ -315,7 +315,11 @@ function recalc() {
   }
 
   const v = validateRequired();
-  if (!v.ok) return;
+  if (!v.ok){
+    return;
+  } 
+  else {   footerBanner.classList.remove("hidden");
+  }
 
   const B = getBenefitValue();
   const T = pctToNum(taxPct?.value);
@@ -454,7 +458,6 @@ daysCount?.addEventListener("input", maybeRecalc);
 // כפתור חשב
 btnCalc?.addEventListener("click", () => {
   submitted = true;
-   footerBanner.classList.remove("hidden");
   recalc();
 });
 
