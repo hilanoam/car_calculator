@@ -208,8 +208,8 @@
                           <option value="hyundai_i25">יונדאי I25</option>
                           <option value="hyundai_elantra">יונדאי אלנטרה</option>
                           <option value="hyundai_accent">יונדאי אקסנט</option>
-                          <option value="hyundai_i">יונדאיI</option>
-                          <option value="hyundai_staria">יונדאיסטארייה</option>
+                          <option value="hyundai_i">יונדאי I</option>
+                          <option value="hyundai_staria">יונדאי סטארייה</option>
 
                           <option value="mazda_2">מאזדה 2</option>
 
@@ -258,17 +258,16 @@
                           <option value="47">47%</option>
                           <option value="50">50%</option>
                         </select>
-                      </label>
-
+                      </label>  
                       <div class="rounded-2xl bg-white/45 border border-white/40 p-4">
                         <div class="text-sm text-slate-500">פירוט ניכוי על זקיפת הטבת רכב</div>
                         <div class="mt-2 space-y-1 text-base">
                           <div class="flex justify-between"><span>מס שולי</span><b>₪ <span id="taxOnBenefit">0.00</span></b></div>
                           <div class="flex justify-between"><span>ביטוח לאומי (7%)</span><b>₪ <span id="nOnBenefit">0.00</span></b></div>
                           <div class="flex justify-between"><span>בריאות (5%)</span><b>₪ <span id="hOnBenefit">0.00</span></b></div>
-                          <div class="pt-2 mt-2 border-t border-white/40 flex justify-between text-slate-900">
-                            <span class="font-semibold">סה״כ זקיפת הטבת רכב</span>
-                            <span class="font-semibold">₪ <span id="sumBenefit">0.00</span></span>
+                          <div class="pt-9 mt-9 border-t border-white/40 text-center text-slate-900">
+                            <div class="font-semibold text-base">סה״כ זקיפת הטבת רכב</div>
+                            <span class="mt-2 text-xl font-bold">₪ <span id="sumBenefit">0.00</span></span>
                           </div>
                         </div>
                       </div>
@@ -354,10 +353,13 @@
                           <div class="flex justify-between"><span>מס שולי (<span id="taxPct2">—</span>)</span><b>₪ <span id="taxOnAllowance">0.00</span></b></div>
                           <div class="flex justify-between"><span>ביטוח לאומי (7%)</span><b>₪ <span id="nOnAllowance">0.00</span></b></div>
                           <div class="flex justify-between"><span>בריאות (5%)</span><b>₪ <span id="hOnAllowance">0.00</span></b></div>
-                          <div class="pt-2 mt-2 border-t border-white/40 flex justify-between text-slate-900">
-                            <span class="font-semibold">סה"כ תוספת איזון נטו</span>
-                            <span class="font-semibold">₪ <span id="netAllowance">0.00</span></span>
+                          <div class="pt-9 mt-9 border-t border-white/40 text-slate-900 text-center">
+                          <div class="font-semibold text-base">
+                            סה"כ תוספת איזון נטו
                           </div>
+                            ₪ <span class="mt-2 text-xl font-bold" id="netAllowance">0.00</span>
+                        </div>
+
                         </div>
                       </div>
                     </div>
@@ -374,19 +376,25 @@
 
                 </div>
                 <!-- Result -->
-                <section class=" rounded-[26px] bg-gradient-to-b from-indigo-600 to-violet-600 text-white p-5 
-                shadow-[0_30px_70px_rgba(99,102,241,.35)] flex flex-col item-center text-center">
-                <div class="text-lg opacity-90 flex items-baseline justify-center gap-3 text-3xl sm:text-4xl font-bold tracking-tight ">סכום הניכוי נטו בגין הרכב</div>
-                  <div class="mt-8 rounded-2xl bg-white/15 border border-white/20 p-4 backdrop-blur-xl">
-                    <div class="text-sm opacity-90"></div>
-                    <div class="mt-8 leading-none">
-                      <div id="finalValueWrapper"  class="flex items-baseline justify-center gap-3 text-6xl sm:text-7xl font-bold"
-                            dir="ltr">
-                        ₪ <span id="finalValue">0.00</span>
-                      </div>
-                    </div>
+           <section class="rounded-[26px] bg-gradient-to-b from-indigo-600 to-violet-600 text-white p-5
+                shadow-[0_30px_70px_rgba(99,102,241,.35)] flex flex-col items-center text-center">
+
+              <div class="text-lg opacity-90 flex items-baseline justify-center gap-3 text-6xl sm:text-6xl font-bold tracking-tight">
+                סכום הניכוי נטו בגין הרכב
+              </div>
+
+              <div class="mt-6 w-full max-w-2xl rounded-2xl bg-white/15 border border-white/20 p-5 sm:p-6 backdrop-blur-xl">
+                <div class="leading-none py-2">
+                  <div id="finalValueWrapper"
+                      class="flex items-baseline justify-center gap-3 text-6xl sm:text-7xl font-bold"
+                      dir="ltr">
+                    <span id="finalValue">0.00</span>
                   </div>
-                </section>
+                </div>
+              </div>
+
+            </section>
+
 
               </div>
 

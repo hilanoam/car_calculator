@@ -141,7 +141,6 @@ function setDatesMode(mode) {
 
   showDateError("");
 
-  // אל תחשבי לפני לחיצה על "חשב"
   if (submitted) recalc();
 }
 
@@ -172,7 +171,6 @@ function setStandardMode(isYes) {
     allowanceAuto = true;
   }
 
-  // אל תחשבי לפני לחיצה על "חשב"
   if (submitted) recalc();
 }
 
@@ -405,7 +403,7 @@ function recalc() {
   if (hOnAllowance) hOnAllowance.textContent = money(healthA);
   if (netAllowance) netAllowance.textContent = money(net2);
 
-  if (finalValue) finalValue.textContent = money(final);
+  if (finalValue) finalValue.textContent = `₪ ${money(final)}`;
 }
 
 // ====== Listeners ======
@@ -486,7 +484,7 @@ function init() {
 
   clearAllMarks();
   showDateError("");
-  if (finalValue) finalValue.textContent = "—";
+  if (finalValue) finalValue.textContent = "";
 }
 
 init();
