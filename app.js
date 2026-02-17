@@ -7,41 +7,47 @@ let allowanceAuto = true; // כל עוד true - ממלאים אוטומטית
 
 // זמני – בהמשך תוסיפי עשרות דגמים
 const CAR_VALUES = {
-  kia_stonic: 1111,
-  toyota_hilux: 7280,
-  toyota_vigo: 7650,
-  toyota_yaris: 3260,
-  toyota_camry: 5190,
-  toyota_corolla: 4200,
+  bmw_d: 3040,                 // בי ווי די
+  toyota_land_cruiser: 9270,   // טויוטה לנד קרוזר
+  toyota_highlander: 8100,     // טויוטה היילנדר
+  toyota_rav4: 4850,           // טויוטה ראב 4
+  toyota_hilux: 7280,          // טויוטה היילקס
+  toyota_vigo: 7650,           // טויוטה ויגו
+  toyota_yaris_cross: 3380,    // טויוטה יאריס קרוס
+  toyota_yaris: 3260,          // טויוטה יאריס
+  toyota_camry: 5190,          // טויוטה קאמרי
+  toyota_corolla: 3860,        // טויוטה קורולה
 
-  hyundai_i25: 3340,
-  hyundai_elantra: 4160,
-  hyundai_accent: 3450,
-  hyundai_i: 2830,
-  hyundai_staria: 7750,
+  hyundai_i25: 3340,           // יונדאי I25
+  hyundai_elantra: 3800,       // יונדאי אלנטרה
+  hyundai_accent: 3630,        // יונדאי אקסנט
+  hyundai_i: 2830,             // יונדאיI
+  hyundai_staria: 7750,        // יונדאיסטארייה
 
-  mazda_2: 3220,
+  mazda_2: 3220,               // מאזדה 2
 
-  mitsubishi_triton: 6500,
-  mitsubishi_other: 7060,
+  mitsubishi_triton: 6500,     // מיצוביי טרייטון
+  mitsubishi_other: 7060,      // מיצובישי
 
-  citroen_berlingo: 4380,
-  citroen_berlingo_7: 6470,
-  citroen_jumpy: 6650,
+  citroen_berlingo: 4380,      // סיטרואן ברלינגו
+  citroen_berlingo_7: 6470,    // סיטרואן ברלינגו 7 מקומות
+  citroen_jumpy: 6650,         // סיטרואן ג'מפי
+  citroen_spacetourer: 5240,   // סיטרואן ספייסטורר (פיקאסו)
 
-  skoda_octavia: 4590,
-  fiat_ducato: 9375,
+  skoda_octavia: 4590,         // סקודה אוקטביה
+  fiat_ducato: 9375,           // פיאט דקאטו
 
-  kia_ceed: 4035,
-  kia_niro: 3870,
-  kia_sportage: 4940,
-  kia_picanto: 2290,
-  kia_rio: 3160,
+  kia_ceed: 3780,              // קאיה סיד
+  kia_niro: 4040,              // קיה נירו
+  kia_sportage: 4940,          // קיה ספרטאג'
+  kia_picanto: 2290,           // קיה פיקנטו
+  kia_rio: 3160,               // קיה ריו
 
-  renault_traffic: 6600,
-  renault_megane: 4410,
-  renault_kangoo: 4070,
+  renault_traffic: 6600,       // רנו טרפיק
+  renault_megane: 4410,        // רנו מגאן
+  renault_kangoo: 4070,        // רנו קנגו
 };
+
 
 // ====== Utils ======
 function toNum(v) {
@@ -148,9 +154,11 @@ function setStandardMode(isYes) {
   datesCard?.classList.toggle("hidden", hasStandard);
 
   // highlight כפתור
-  btnYes?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
-  btnNo?.classList.remove("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
-  (isYes ? btnYes : btnNo)?.classList.add("ring-2", "ring-violet-400", "shadow-[0_12px_25px_rgba(139,92,246,0.35)]");
+    btnYes?.classList.remove("btn-choice-active");
+    btnNo?.classList.remove("btn-choice-active");
+    (isYes ? btnYes : btnNo)?.classList.add("btn-choice-active");
+
+
 
   // מעבר ל"איגום" -> מאפסים תוספת איזון שלא תשפיע
   if (!hasStandard && allowance) allowance.value = "";
@@ -400,18 +408,24 @@ function maybeRecalc() {
   if (submitted) recalc();
 }
 
-// רכב או ידני (מאפסים אחד את השני)
 benefitManual?.addEventListener("input", () => {
-  if (toNum(benefitManual.value) > 0 && carType) carType.value = "";
+  const v = benefitManual.value.trim();
+  if (v !== "" && carType) carType.value = "";
   autoFillAllowanceIfNeeded();
   maybeRecalc();
 });
 
 carType?.addEventListener("change", () => {
-  if (carType.value && benefitManual) benefitManual.value = "";
+  const val = CAR_VALUES[carType.value] ?? 0;
+
+  if (benefitManual) {
+    benefitManual.value = String(val);
+  }
+
   autoFillAllowanceIfNeeded();
   maybeRecalc();
 });
+
 
 taxPct?.addEventListener("change", maybeRecalc);
 

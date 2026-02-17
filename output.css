@@ -1204,3 +1204,22 @@ video {
   outline: 2px solid rgb(244 63 94 / 0.55); /* rose */
   box-shadow: 0 0 0 4px rgb(244 63 94 / 0.12);
 }
+#finalValueWrapper {
+  font-size: 30px !important;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.btn-choice {
+  border: 2px solid rgba(139, 92, 246, 0.65); /* סגול קבוע */
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.18); /* עדין */
+}
+
+/* כשנבחר */
+.btn-choice-active {
+  background-color: rgba(139, 92, 246, 0.20) ; /* מילוי סגול בהיר */
+  border-color: rgba(139, 92, 246, 0.95);     /* מסגרת סגולה חזקה יותר */
+  box-shadow:
+    0 0 0 2px rgba(139, 92, 246, 0.35),
+    0 12px 25px rgba(139, 92, 246, 0.22);
+}
