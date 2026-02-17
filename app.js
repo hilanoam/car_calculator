@@ -111,6 +111,7 @@ const finalValue = document.getElementById("finalValue");
 
 // Calc button
 const btnCalc = document.getElementById("btnCalc");
+const footerBanner = document.getElementById("footerBanner");
 
 // ====== State ======
 let hasStandard = null; // null עד שלא בוחרים
@@ -453,6 +454,7 @@ daysCount?.addEventListener("input", maybeRecalc);
 // כפתור חשב
 btnCalc?.addEventListener("click", () => {
   submitted = true;
+   footerBanner.classList.remove("hidden");
   recalc();
 });
 

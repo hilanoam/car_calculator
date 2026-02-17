@@ -374,19 +374,26 @@
 
                 </div>
                 <!-- Result -->
-                <section class=" rounded-[26px] bg-gradient-to-b from-indigo-600 to-violet-600 text-white p-5 shadow-[0_30px_70px_rgba(99,102,241,.35)]">
-                  <div class="text-base opacity-90">סכום הניכוי נטו בגין הרכב</div>
-
-                  <div class="mt-3 rounded-2xl bg-white/15 border border-white/20 p-4 backdrop-blur-xl">
+                <section class=" rounded-[26px] bg-gradient-to-b from-indigo-600 to-violet-600 text-white p-5 
+                shadow-[0_30px_70px_rgba(99,102,241,.35)] flex flex-col item-center text-center">
+                <div class="text-lg opacity-90 flex items-baseline justify-center gap-3 text-3xl sm:text-4xl font-bold tracking-tight ">סכום הניכוי נטו בגין הרכב</div>
+                  <div class="mt-8 rounded-2xl bg-white/15 border border-white/20 p-4 backdrop-blur-xl">
                     <div class="text-sm opacity-90"></div>
-                    <div class="mt-2 leading-none">
-                      <div id="finalValueWrapper">
+                    <div class="mt-8 leading-none">
+                      <div id="finalValueWrapper"  class="flex items-baseline justify-center gap-3 text-6xl sm:text-7xl font-bold"
+                            dir="ltr">
                         ₪ <span id="finalValue">0.00</span>
                       </div>
                     </div>
                   </div>
                 </section>
 
+              </div>
+
+              <!-- Footer Signature -->
+              <div id="footerBanner" class="hidden mt-8 flex justify-center">
+                <img src="./logo.png" alt="לשירותך תמיד - מחלקת שכר וגמלאות"
+                    class="w-full max-w-4xl rounded-2xl shadow-lg" />
               </div>
             </main>
           </div>
