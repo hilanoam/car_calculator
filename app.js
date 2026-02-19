@@ -200,6 +200,22 @@ function diffDaysInclusive(a, b) {
   const end = new Date(b.getFullYear(), b.getMonth(), b.getDate());
   return Math.floor((end - start) / ms) + 1;
 }
+function calcPayForMonthSegment(usedDaysInThatMonth, daysInMonth, fullMonthlyCost) {
+  // יום חינם אחד לכל חודש קלנדרי
+  if (usedDaysInThatMonth <= 1) return 0;
+  if (usedDaysInThatMonth >= 10) return fullMonthlyCost;
+  return (fullMonthlyCost / daysInMonth) * (usedDaysInThatMonth - 1);
+}
+
+function endOfMonth(dateObj) {
+  return new Date(dateObj.getFullYear(), dateObj.getMonth() + 1, 0);
+}
+
+function addDays(dateObj, days) {
+  const d = new Date(dateObj);
+  d.setDate(d.getDate() + days);
+  return d;
+}
 
 // ====== Calculation helpers ======
 function getBenefitValue() {
@@ -313,22 +329,22 @@ function recalc() {
   }
 
   const v = validateRequired();
-  if (!v.ok){
+  if (!v.ok) {
     return;
-  } 
-  else {   footerBanner.classList.remove("hidden");
+  } else {
+    footerBanner?.classList.remove("hidden");
   }
 
   const B = getBenefitValue();
   const T = pctToNum(taxPct?.value);
 
-  // field1 cost
+  // field1 cost (עלות ניכוי על זקיפת הטבה לרכב)
   const taxB = B * T;
   const niB = B * FIXED_NI;
   const healthB = B * FIXED_HEALTH;
   const cost1 = taxB + niB + healthB;
 
-  // field2 net
+  // field2 net (תוספת איזון נטו)
   const A = hasStandard ? toNum(allowance?.value) : 0;
   const taxA = A * T;
   const niA = A * FIXED_NI;
@@ -338,6 +354,7 @@ function recalc() {
   let final = 0;
 
   if (hasStandard) {
+    // רכב צמוד
     final = cost1 - net2;
 
     if (daysInMonthEl) daysInMonthEl.textContent = "—";
@@ -345,14 +362,16 @@ function recalc() {
     if (proratedCostEl) proratedCostEl.textContent = money(0);
     showDateError("");
   } else {
-    // איגום
+    // איגום / ת"ש
     if (datesMode === "days") {
+      // מצב הזנת מספר ימים
       const dim = daysInMonthFromMonthInput(useMonth?.value);
       const used = Math.floor(toNum(daysCount?.value));
 
       if (!dim) return stopWithError("בחרי חודש כדי לחשב ימים בחודש (לדוגמה 2026-02).");
       if (used > dim) return stopWithError(`מספר הימים לא יכול להיות גדול ממספר הימים בחודש (${dim}).`);
 
+      // יום חינם אחד בכל חודש
       let pay = 0;
       if (used <= 1) pay = 0;
       else if (used >= 10) pay = cost1;
@@ -365,33 +384,64 @@ function recalc() {
       if (proratedCostEl) proratedCostEl.textContent = money(pay);
       showDateError("");
     } else {
+      // מצב הזנת תאריכים — תומך גם בטווח שחוצה חודשים
       const s = parseDateInput(startDate?.value);
       const e = parseDateInput(endDate?.value);
 
       if (!s || !e) return stopWithError("בחרי תאריך התחלה ותאריך סיום.");
       if (e < s) return stopWithError("תאריך סיום חייב להיות אחרי תאריך התחלה.");
-      if (s.getFullYear() !== e.getFullYear() || s.getMonth() !== e.getMonth()) {
-        return stopWithError("כרגע החישוב תומך בתאריכים באותו חודש בלבד.");
+
+      // === חישוב לפי חודשים: יום חינם בכל חודש קלנדרי ===
+      let cursor = new Date(s.getFullYear(), s.getMonth(), s.getDate());
+      let totalPay = 0;
+      const segments = [];
+
+      while (cursor <= e) {
+        const segStart = new Date(cursor);
+        const segEnd = new Date(Math.min(endOfMonth(cursor).getTime(), e.getTime()));
+
+        const dim = daysInMonthFrom(segStart);
+        const used = diffDaysInclusive(segStart, segEnd);
+
+        // יום חינם לכל חודש + כלל 2-9 יחסית, 10+ מלא
+        const paySeg = calcPayForMonthSegment(used, dim, cost1);
+        totalPay += paySeg;
+
+        segments.push({
+          y: segStart.getFullYear(),
+          m: segStart.getMonth() + 1,
+          dim,
+          used,
+          pay: paySeg,
+        });
+
+        cursor = addDays(segEnd, 1);
       }
 
-      const dim = daysInMonthFrom(s);
-      const used = diffDaysInclusive(s, e);
+      final = totalPay;
 
-      let pay = 0;
-      if (used <= 1) pay = 0;
-      else if (used >= 10) pay = cost1;
-      else pay = (cost1 / dim) * (used - 1);
+      // UI summary
+      if (daysInMonthEl) {
+        daysInMonthEl.textContent =
+          segments.length === 1
+            ? String(segments[0].dim)
+            : segments.map((sg) => `${sg.m}/${sg.y}: ${sg.dim}`).join(" | ");
+      }
 
-      final = pay;
+      if (daysUsedEl) {
+        const totalUsed = segments.reduce((acc, sg) => acc + sg.used, 0);
+        daysUsedEl.textContent =
+          segments.length === 1
+            ? String(segments[0].used)
+            : `${totalUsed} (ב־${segments.length} חודשים)`;
+      }
 
-      if (daysInMonthEl) daysInMonthEl.textContent = String(dim);
-      if (daysUsedEl) daysUsedEl.textContent = String(used);
-      if (proratedCostEl) proratedCostEl.textContent = money(pay);
+      if (proratedCostEl) proratedCostEl.textContent = money(totalPay);
       showDateError("");
     }
   }
 
-  // ====== Render ======
+  // ====== Render breakdowns ======
   if (taxOnBenefit) taxOnBenefit.textContent = money(taxB);
   if (nOnBenefit) nOnBenefit.textContent = money(niB);
   if (hOnBenefit) hOnBenefit.textContent = money(healthB);
@@ -405,6 +455,7 @@ function recalc() {
 
   if (finalValue) finalValue.textContent = `₪ ${money(final)}`;
 }
+
 
 // ====== Listeners ======
 function maybeRecalc() {
